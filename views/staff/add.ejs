@@ -1,0 +1,83 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Staff</h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+        <div class="btn-group me-2">
+            <button class="btn btn-sm btn-outline-primary"><a href="/Dashboard">Dashboard</a></button>
+        </div>
+    </div>
+  </div>
+  
+  <form action="/staff/add" method="POST">
+
+    <div class="row form-group mb-4">
+
+  
+    <div class="col">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control custom-input" id="first_name" name="first_name" value="" placeholder="First Name" required>
+    </div>
+  
+    <div class="col">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control custom-input" id="last_name" name="last_name" value="" placeholder="Last Name" required>
+    </div>
+
+    </div>
+    <div class="row form-group mb-4">
+
+  
+    <div class="col">
+        <label for="id">ID</label>
+        <input type="text" class="form-control custom-input" id="id" name="id" value="" placeholder="Fakultas" required>
+    </div>
+  
+    <div class="col">
+        <label for="umur">Umur</label>
+        <input type="text" class="form-control custom-input" id="umur" name="umur" value="" placeholder="Course" required>
+    </div>
+
+    </div>
+
+    
+    <div class="row form-group mb-4">
+
+  
+        <div class="col">
+            <label for="tel">Telephone Number</label>
+            <input type="text" class="form-control custom-input" id="tel" name="tel" value="" placeholder="Telephone" required>
+        </div>
+      
+        <div class="col">
+            <label for="email">Email</label>
+            <input type="text" class="form-control custom-input" id="email" name="email" value="" placeholder="Email" required>
+        </div>
+    
+        </div>
+
+    <div class="row form-group mb-4">
+
+  
+    <div class="col">
+        <label for="tempat_tanggal_lahir">Tempat Dan Tanggal Lahir : </label>
+        <input type="text" class="form-control custom-input" id="tempat_tanggal_lahir" name="tempat_tanggal_lahir" value="" placeholder="Tempat Dan Tanggal Lahir" required>
+    </div>
+  
+    <div class="col">
+        <label for="alamat">Alamat :</label>
+        <input type="text" class="form-control custom-input" id="alamat" name="alamat" value="" placeholder="Alamat" required>
+    </div>
+
+    </div>
+
+    <div class="col">
+        <label for="alamat">job :</label>
+        <input type="text" class="form-control custom-input" id="job" name="job" value="" placeholder="Job" required>
+    </div>
+
+
+    <div class="form-group mb-4 mt-10">
+        <button type="submit" class="btn btn-outline-success"style="margin-top : 15px;">Add Staff</button>
+    </div>
+  
+  </form>
+  
