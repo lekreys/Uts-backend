@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><%= customer.Name  %></h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+      </div>
+    </div>
+  </div>
+  <div class="col py-3">
+    <div class="row">
+      <div class="col text-end fw-lighter">
+        <b class="detail-student">Last Updated: <%= new Date(customer.updatedAt).toUTCString()  %></b>
+        <b class="detail-student">UserId: <%= customer._id %></b> 
+      </div>
+    </div>
+  </div> 
+  <ul class="list-group custom-list">
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Name:</b></div>
+        <div class="col"><%= customer.Name %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row ">
+        <div class="col" style="max-width: 140px"> <b>Nim:</b></div>
+        <div class="col"><%= customer.Nim %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Tel:</b></div>
+        <div class="col"><%= customer.tel %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Email:</b></div>
+        <div class="col"><%= customer.email %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Fakultas:</b></div>
+        <div class="col"><%= customer.Fakultas %></div>
+      </div>
+    </li>
+
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Jurusan:</b></div>
+        <div class="col"><%= customer.Jurusan %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Details:</b></div>
+        <div class="col"><%= customer.details %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Date Created:</b></div>
+        <div class="col"><%= customer.updateAt %></div>
+      </div>
+    </li>
+    <li class="list-group-item custom-view"> 
+      <div class="row">
+        <div class="col" style="max-width: 140px"> <b>Date Modified:</b></div>
+        <div class="col"><%= customer.updateAt %></div>
+      </div>
+    </li>
+  
+  </ul>
