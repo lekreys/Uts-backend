@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Dosen</title>
+<!-- Tambahkan CSS Bootstrap (contoh menggunakan CDN) -->
+<link href="../public/css/dosen.css" rel="">
+</head>
+<body>
+
+
+
+<div class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Data Dosen</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <a href="/dosen/add" class="btn btn-sm btn-outline-success">+ New Professor</a>
+            </div>
+            <!-- Tambahkan tombol untuk pengurutan -->
+            <button onclick="sortTable('Name')" class="btn btn-sm btn-outline-primary">Sort by Name</button>
+            <!-- Tambahkan tombol untuk ekspor data -->
+            <button onclick="exportToCSV('studentTable')" class="btn btn-sm btn-outline-primary">Export to CSV</button>
+        </div>
+    </div>
+
+    <!-- Filter fakultas -->
+    <div class="form-group">
+        <label for="fakultasFilter">Filter by Fakultas:</label>
+        <select class="form-control" id="fakultasFilter" onchange="filterByFakultas()">
+            <option value="">All</option>
+            <!-- Daftar fakultas disini -->
+            <option value="Teknologi">Teknologi</option>
+            <option value="Hukum">Hukum</option>
+            <option value="Teknik">Teknik</option>
+            <option value="Komunikasi">Komunikasi</option>
+        </select>
+    </div>
+
+    <!-- Pesan -->
+    <% messages.forEach(element => { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= element %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% }) %>
+
+    <!-- Tabel data student -->
+    <div class="table-responsive bg">
+        <table id="studentTable" class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color: #333; color: aliceblue; border: 1px white solid;">Name</th>
+                    <th scope="col" style="background-color: #333; color: aliceblue; border: 1px white solid;">ID</th>
+                    <th scope="col" style="background-color: #333; color: aliceblue; border: 1px white solid;">Email</th>
+                    <th scope="col" style="background-color: #333; color: aliceblue; border: 1px white solid;">Last Education</th>
+                    <th scope="col" class="text-end" style="background-color: #333; color: aliceblue; border: 1px white solid;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data student akan dimasukkan di sini -->
+                <% customers.forEach(element => { %>
+                <tr class="align-middle">
+                    <td style="background-color: black; color: aliceblue; border: 1px white solid;"><%= element.Name %></td>
+                    <td style="background-color: black; color: aliceblue; border: 1px white solid;"><%= element.ID %></td>
+                    <td style="background-color: black; color: aliceblue; border: 1px white solid;"><%= element.email %></td>
+                    <td style="background-color: black; color: aliceblue; border: 1px white solid;"><%= element.last_educ %></td>
+                    <td class="text-end" style="background-color: black; color: aliceblue; border: 1px white solid;">
+                        <div class="d-flex flex-row justify-content-end gap-2">
+                            <a href="/dosen/view/<%= element._id %>" type="button" class="btn btn-outline-primary btn-small">
+                              <i class="bi bi-arrows-fullscreen"></i>
+                            </a>
+                            <a href="/dosen/edit/<%= element._id %>" type="button" class="btn btn-outline-warning btn-small">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                            <form action="/dosen/edit/<%= element._id %>?_method=DELETE" method="POST" class="position-relative">
+                                <button type="submit" class="btn btn-outline-danger btn-small">
+                                  <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <% if (customers.length > 0) { %>
+    <!-- Pagination -->
+    <nav aria-label="Dashboard Pagination">
+        <ul class="pagination justify-content-center mt-5 c">
+            <% if (current == 1) { %>
+            <li class="page-item disabled "><a href="#" class="page-link custom-page">First</a></li>
+            <% } else { %>
+            <li class="page-item"><a href="/?page=1" class="page-link custom-page">First</a></li>
+            <% } %>
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if(i !== 1) { %>
+            <li class="page-item disabled"><a href="#" class="page-link custom-page">...</a></li>
+            <% } %>
+            <% for(; i <= (Number(current) + 4) && i <= pages; i++ ) { %>
+            <% if (i == current) { %>
+            <li class="page-item disabled"><a href="#" class="page-link custom-page"><%= i %></a></li>
+            <% } else { %>
+            <li class="page-item"><a href="/?page=<%= i %>" class="page-link custom-page"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+            <li class="page-item disabled"><a href="#" class="page-link custom-page">...</a></li>
+            <% } %>
+            <% } %>
+            <% if (current == pages) { %>
+            <li class="page-item disabled"><a href="#" class="page-link custom-page">Last</a></li>
+            <% } else { %>
+            <li class="page-item"><a href="/?page=<%= pages %>" class="page-link custom-page">Last</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <% } %>
+
+</div>
+
+<!-- Tambahkan JavaScript untuk pengurutan -->
+<script>
+    function sortTable(columnName) {
+        let table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("studentTable");
+        switching = true;
+        /* Buat loop sampai tidak ada lagi yang harus diubah */
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            /* Loop melalui semua baris kecuali baris header */
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                /* Mendapatkan elemen pada kolom nama */
+                x = rows[i].getElementsByTagName("TD")[0]; // Kolom pertama adalah kolom nama
+                y = rows[i + 1].getElementsByTagName("TD")[0]; // Kolom pertama adalah kolom nama
+                /* Periksa apakah dua baris perlu ditukar tempat */
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                /* Tukar posisi dua baris dan tandai bahwa pertukaran telah dilakukan */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+</script>
+
+<!-- Tambahkan JavaScript untuk filter -->
+<script>
+  function filterByFakultas() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("fakultasFilter");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("studentTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3]; // Kolom fakultas berada di indeks 3
+          if (td) {
+              txtValue = td.textContent || td.innerText;
+              // Periksa apakah teks dalam kolom fakultas cocok dengan filter
+              if (txtValue.toUpperCase() === filter || filter === '') {
+                  tr[i].style.display = ""; // Tampilkan baris jika cocok
+              } else {
+                  tr[i].style.display = "none"; // Sembunyikan baris jika tidak cocok
+              }
+          }
+      }
+  }
+</script>
+
+<!-- Tambahkan JavaScript untuk ekspor data -->
+<script>
+    function exportToCSV(tableID, filename = 'exported_data.csv') {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableID + " tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
+
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        downloadCSV(csv.join("\n"), filename);
+    }
+
+    function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], {type: "text/csv"});
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+</script>
+
+<!-- Tambahkan JavaScript Bootstrap (contoh menggunakan CDN) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
